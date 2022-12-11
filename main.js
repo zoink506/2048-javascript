@@ -14,6 +14,15 @@ function startGame() {
 
   generateStartingCells(gameGrid, 2);
 
+  // For testing purposes, create custom grid
+  gameGrid = [
+    [0, 0, {value: 4, hasCombined: false}, 0],
+    [0, 0, {value: 4, hasCombined: false}, 0],
+    [0, 0, {value: 4, hasCombined: false}, 0],
+    [0, 0, {value: 4, hasCombined: false}, 0]
+  ]
+  
+
   console.log(gameGrid);
   createEventListeners(gameGrid);
 }
@@ -75,47 +84,73 @@ function moveGrid(grid, direction) {
 // Begin by moving only one cell in each direction
 // i = roww, j = columns
 function moveUp(grid) {
-  // Loop from top to bottom, left to right
-  for(let i = 0; i < grid.length; i++) {
-    const row = grid[i];
+  
+  let movesAvailable;
+  do {
+    movesAvailable = false;
+    // Loop from top to bottom, left to right
+    for(let i = 0; i < grid.length; i++) {
+      const row = grid[i];
 
-    for(let j = 0; j < row.length; j++) {
-      let cell = row[j];
+      for(let j = 0; j < row.length; j++) {
+        let cell = row[j];
 
-      if(cell !== 0) {
-        // cell is occupied, an action must take place
-        if(i !== 0) {
-          // cell is occupied and not at top
-          /*
-           *  if cell above is 0, move current cell up one index
-           *  if cell above is occupied, check cell above's value and .hasCombined
-           *  if cell value is equal and .hasCombined is false, combine cells
-           *  otherwise, do nothing
-           */
-          let cellAbove = grid[i-1][j];
-          console.log(cellAbove, `${i}-${j}`);
+        if(cell !== 0) {
+          // cell is occupied, an action must take place
+          if(i !== 0) {
+            // cell is occupied and not at top
+            /*
+            *  if cell above is 0, move current cell up one index
+            *  if cell above is occupied, check cell above's value and .hasCombined
+            *  if cell value is equal and .hasCombined is false, combine cells
+            *  otherwise, do nothing
+            */
+            let cellAbove = grid[i-1][j];
+            console.log(cellAbove, `${i}-${j}`);
 
-          if(cellAbove === 0) {
-            console.log("Cell above is 0");
-            grid[i-1][j] = cell;
-            grid[i][j] = 0;
+            if(cellAbove === 0) {
+              console.log("Cell above is 0");
+              grid[i-1][j] = cell;
+              grid[i][j] = 0;
+              movesAvailable = true;
 
-          } else {
-            console.log("Cell above is occupied");
+            } else {
+              console.log("Cell above is occupied");
+
+              // Cell above has same value, and neither cell has been combined previously
+              if( cellAbove.value === cell.value && !cellAbove.hasCombined && !cell.hasCombined ) {
+                console.log("These two cells are able to be combined!");
+                cellAbove.value *= 2;
+                cellAbove.hasCombined = true;
+                grid[i][j] = 0;
+                movesAvailable = true;
+
+              }
+
+            }
 
           }
 
         }
-
       }
     }
-  }
+
+  } while(movesAvailable)
+
+  // Set all .hasCombined to false so that next keypress is allowed to combine cells!
+  setCombinedToFalse(grid);
 
   console.log(grid);
 }
 
 function moveDown(grid) {
   // Loop from bottom to top, left to right
+  let k = 0;
+  console.log(k);
+  do {
+    k += 1;
+    console.log(k);
+  } while(k > 10)
 
 }
 
@@ -127,6 +162,17 @@ function moveLeft(grid) {
 function moveRight(grid) {
   // Loop from right to left, top to bottom
 
+}
+
+function setCombinedToFalse(grid) {
+  for(let i = 0; i < grid.length; i++) {
+    for(let j = 0; j < grid[i].length; j++) {
+      cell = grid[i][j];
+      if(cell !== 0) {
+        cell.hasCombined = false;
+      }
+    }
+  }
 }
 
 startGame();
