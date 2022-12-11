@@ -72,19 +72,48 @@ function moveGrid(grid, direction) {
   }
 }
 
+// Begin by moving only one cell in each direction
+// i = roww, j = columns
 function moveUp(grid) {
-  
+  // Loop from top to bottom, left to right
+  for(let i = 0; i < grid.length; i++) {
+    const row = grid[i];
+
+    for(let j = 0; j < row.length; j++) {
+      const cell = row[j];
+
+      if(cell !== 0) {
+        // cell is occupied, an action must take place
+        if(i === 0) {
+          // do nothing
+        } else {
+          // cell is occupied and not at top
+          /*
+           *  if cell above is 0, move current cell up one index
+           *  if cell above is occupied, check cell above's value and .hasCombined
+           *  if cell value is equal and .hasCombined is false, combine cells
+           *  otherwise, do nothing
+           */
+
+        }
+
+      }
+    }
+  }
 }
 
 function moveDown(grid) {
+  // Loop from bottom to top, left to right
 
 }
 
 function moveLeft(grid) {
+  // Loop from left to right, top to bottom
 
 }
 
 function moveRight(grid) {
+  // Loop from right to left, top to bottom
 
 }
 
