@@ -80,13 +80,11 @@ function moveUp(grid) {
     const row = grid[i];
 
     for(let j = 0; j < row.length; j++) {
-      const cell = row[j];
+      let cell = row[j];
 
       if(cell !== 0) {
         // cell is occupied, an action must take place
-        if(i === 0) {
-          // do nothing
-        } else {
+        if(i !== 0) {
           // cell is occupied and not at top
           /*
            *  if cell above is 0, move current cell up one index
@@ -94,12 +92,26 @@ function moveUp(grid) {
            *  if cell value is equal and .hasCombined is false, combine cells
            *  otherwise, do nothing
            */
+          let cellAbove = grid[i-1][j];
+          console.log(cellAbove, `${i}-${j}`);
+
+          if(cellAbove === 0) {
+            console.log("Cell above is 0");
+            grid[i-1][j] = cell;
+            grid[i][j] = 0;
+
+          } else {
+            console.log("Cell above is occupied");
+
+          }
 
         }
 
       }
     }
   }
+
+  console.log(grid);
 }
 
 function moveDown(grid) {
