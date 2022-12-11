@@ -12,41 +12,59 @@ function startGame() {
     }
   }
 
-  createEventListeners(gameGrid);
   console.log(gameGrid);
+  createEventListeners(gameGrid);
 }
 
 function createEventListeners(gameGrid) {
   document.addEventListener("keydown", e => {
-    key = e.key;
-    if(key === "w" || key === "a" || key === "s" || key === "d" || key === "W" || key === "A" || key === "S" || key === "D") {
-      moveGrid(gameGrid, key);
+    if(e.keyCode >= 37 && e.keyCode <= 40) {
+      moveGrid(gameGrid, e.key);
     }
   });
 }
 
 function moveGrid(grid, direction) {
-  console.log(direction);
+  switch (direction) {
+    case "ArrowUp":
+      console.log("arrow up");
+      moveUp(grid);
+      break;
+  
+    case "ArrowDown":
+      console.log("arrow down");
+      moveDown(grid);
+      break;
 
-  drawGrid(grid);
+    case "ArrowLeft":
+      console.log("arrow left");
+      moveLeft(grid);
+      break;
+
+    case "ArrowRight":
+      console.log("arrow right");
+      moveRight(grid);
+      break;
+
+    default:
+      break;
+  }
 }
 
-function drawGrid(grid) {
-  const gridSize = grid.length;
-  const columnDiv = document.querySelector("#columns");
-  const columns = document.getElementsByClassName("column");
+function moveUp(grid) {
   
-  console.log(columns);
-  console.log(columnDiv)
+}
 
-  for(let i = 0; i < gridSize; i++) {
-    const row = grid[i];
-    
-    for(let j = 0; j < row.length; j++) {
+function moveDown(grid) {
 
-    }
+}
 
-  }
+function moveLeft(grid) {
+
+}
+
+function moveRight(grid) {
+
 }
 
 startGame();
