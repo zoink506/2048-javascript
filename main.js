@@ -1,6 +1,5 @@
 function startGame() {
   // Creates the games grid, adjust gridSize to change size of grid
-  const gameDiv = document.querySelector("#columns");
   const gridSize = 4;
   let gameGrid = new Array;
 
@@ -15,13 +14,16 @@ function startGame() {
   generateStartingCells(gameGrid, 2);
 
   // For testing purposes, create custom grid
+  /*
   gameGrid = [
     [0, 0, {value: 4, hasCombined: false}, 0],
     [0, 0, {value: 4, hasCombined: false}, 0],
     [0, 0, {value: 4, hasCombined: false}, 0],
     [0, 0, {value: 4, hasCombined: false}, 0]
   ]
+  */
   
+  drawGrid(gameGrid);
 
   console.log(gameGrid);
   createEventListeners(gameGrid);
@@ -82,7 +84,7 @@ function moveGrid(grid, direction) {
 }
 
 // Begin by moving only one cell in each direction
-// i = roww, j = columns
+// i = row, j = columns
 function moveUp(grid) {
   
   let movesAvailable;
@@ -139,18 +141,13 @@ function moveUp(grid) {
 
   // Set all .hasCombined to false so that next keypress is allowed to combine cells!
   setCombinedToFalse(grid);
+  drawGrid(grid);
 
   console.log(grid);
 }
 
 function moveDown(grid) {
   // Loop from bottom to top, left to right
-  let k = 0;
-  console.log(k);
-  do {
-    k += 1;
-    console.log(k);
-  } while(k > 10)
 
 }
 
@@ -172,6 +169,33 @@ function setCombinedToFalse(grid) {
         cell.hasCombined = false;
       }
     }
+  }
+}
+
+function drawGrid(grid) {
+  // container div is flex: column
+  // row divs are flex: row
+
+  const containerDiv = document.querySelector("#game");
+  containerDiv.innerHTML = "";
+
+  for(let i = 0; i < grid.length; i++) {
+    const rowDiv = document.createElement("div");
+    rowDiv.classList.add("row");
+
+    for(let j = 0; j < grid[i].length; j++) {
+      const cell = grid[i][j];
+      const cellDiv = document.createElement("div");
+      cellDiv.classList.add("cell");
+
+      if(cell === 0) {
+        cellDiv.innerText = "";
+      } else {
+        cellDiv.innerText = cell.value;
+      }
+      rowDiv.append(cellDiv);
+    }
+    containerDiv.append(rowDiv);
   }
 }
 
