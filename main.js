@@ -12,14 +12,35 @@ function startGame() {
     }
   }
 
+  generateStartingCells(gameGrid, 2);
+
   console.log(gameGrid);
   createEventListeners(gameGrid);
 }
 
-function createEventListeners(gameGrid) {
+function generateStartingCells(grid, numOfCells) {
+  const cellAmount = grid.length ** 2; // length of grid squared
+  const threshold =  1 / cellAmount;
+
+  let cellsCreated = 0;
+  while(cellsCreated < numOfCells) {
+    for(let i = 0; i < grid.length; i++) {
+      for(let j = 0; j < grid[i].length; j++) {
+        const rand = Math.random();
+        if(rand < threshold && grid[i][j] === 0 && cellsCreated < numOfCells) {
+          // create cell
+          grid[i][j] = 2;
+          cellsCreated++;
+        }
+      }
+    }
+  }
+}
+
+function createEventListeners(grid) {
   document.addEventListener("keydown", e => {
-    if(e.keyCode >= 37 && e.keyCode <= 40) {
-      moveGrid(gameGrid, e.key);
+    if(e.keyCode >= 37 && e.keyCode <= 40) { // key is an arrow key
+      moveGrid(grid, e.key);
     }
   });
 }
