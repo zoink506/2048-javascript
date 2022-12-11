@@ -29,7 +29,7 @@ function generateStartingCells(grid, numOfCells) {
         const rand = Math.random();
         if(rand < threshold && grid[i][j] === 0 && cellsCreated < numOfCells) {
           // create cell
-          grid[i][j] = 2;
+          grid[i][j] = { value: 2, hasCombined: false };
           cellsCreated++;
         }
       }
