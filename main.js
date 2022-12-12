@@ -24,8 +24,6 @@ function startGame() {
   */
   
   drawGrid(gameGrid);
-
-  console.log(gameGrid);
   createEventListeners(gameGrid);
 }
 
@@ -59,22 +57,18 @@ function createEventListeners(grid) {
 function moveGrid(grid, direction) {
   switch (direction) {
     case "ArrowUp":
-      console.log("arrow up");
       moveUp(grid);
       break;
   
     case "ArrowDown":
-      console.log("arrow down");
       moveDown(grid);
       break;
 
     case "ArrowLeft":
-      console.log("arrow left");
       moveLeft(grid);
       break;
 
     case "ArrowRight":
-      console.log("arrow right");
       moveRight(grid);
       break;
   }
@@ -85,7 +79,30 @@ function moveGrid(grid, direction) {
 }
 
 function createNewCells(grid) {
+  // Create a random number between 0 (inclusive) and grid length squared (exclusive), then floor it
+  // Check if that place in the grid is occupied
+  // if true, repeat the function
+  // if false, place the new cell in that place.
+  // Better performance, only one random number generated and no looping required
+
+  let randNum = Math.floor(Math.random() * (grid.length ** 2));
+
+  const row = Math.floor(randNum / grid.length);
+  const column = randNum - row * grid.length;
+
+  if(grid[row][column] === 0) {
+    grid[row][column] = { value: 2, hasCombined: false };
+  } else {
+    console.log("Iteration");
+    createNewCells(grid);
+  }
+
+  console.log(randNum);
+  console.log(row, column);
+
   
+
+
 }
 
 // Begin by moving only one cell in each direction
@@ -113,20 +130,16 @@ function moveUp(grid) {
             *  otherwise, do nothing
             */
             let cellAbove = grid[i-1][j];
-            console.log(cellAbove, `${i}-${j}`);
 
             if(cellAbove === 0) {
-              console.log("Cell above is 0");
               grid[i-1][j] = cell;
               grid[i][j] = 0;
               movesAvailable = true;
 
             } else {
-              console.log("Cell above is occupied");
 
               // Cell above has same value, and neither cell has been combined previously
               if( cellAbove.value === cell.value && !cellAbove.hasCombined && !cell.hasCombined ) {
-                console.log("These two cells are able to be combined!");
                 cellAbove.value *= 2;
                 cellAbove.hasCombined = true;
                 grid[i][j] = 0;
@@ -155,7 +168,6 @@ function moveDown(grid) {
         if(cell !== 0) {
           if(i !== grid.length - 1) {
             let cellBelow = grid[i+1][j];
-            console.log(`${i}-${j}`, cellBelow);
 
             if(cellBelow === 0) {
               // Move to take it's place
@@ -194,7 +206,6 @@ function moveLeft(grid) {
         if(cell !== 0) {
           if(j !== 0) {
             let cellLeft = row[j-1];
-            console.log(cellLeft);
 
             if(cellLeft === 0) {
               // Move to take it's place
@@ -232,7 +243,6 @@ function moveRight(grid) {
         if(cell !== 0) {
           if(j !== row.length - 1) {
             let cellRight = row[j+1];
-            console.log(cellRight);
 
             if(cellRight === 0) {
               // Move to take it's place
@@ -268,9 +278,6 @@ function setCombinedToFalse(grid) {
 }
 
 function drawGrid(grid) {
-  // container div is flex: column
-  // row divs are flex: row
-
   const containerDiv = document.querySelector("#game");
   containerDiv.innerHTML = "";
 
