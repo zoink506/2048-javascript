@@ -14,14 +14,14 @@ function startGame() {
   generateStartingCells(gameGrid, 2);
 
   // For testing purposes, create custom grid
-  /*
+  
   gameGrid = [
-    [0, 0, {value: 4, hasCombined: false}, 0],
-    [0, 0, {value: 4, hasCombined: false}, 0],
-    [0, 0, {value: 4, hasCombined: false}, 0],
-    [0, 0, {value: 4, hasCombined: false}, 0]
+    [{ value: 2, hasCombined: false }, { value: 4, hasCombined: false }, { value: 8, hasCombined: false }, { value: 16, hasCombined: false }],
+    [{ value: 32, hasCombined: false }, { value: 64, hasCombined: false }, { value: 128, hasCombined: false }, { value: 256, hasCombined: false }],
+    [{ value: 512, hasCombined: false }, { value: 1024, hasCombined: false }, { value: 2048, hasCombined: false }, {value: 4096, hasCombined: false}],
+    [{ value: 8192, hasCombined: false }, 0, 0, 0]
   ]
-  */
+  
   
   drawGrid(gameGrid);
   createEventListeners(gameGrid);
@@ -294,6 +294,8 @@ function drawGrid(grid) {
       const cell = grid[i][j];
       const cellDiv = document.createElement("div");
       cellDiv.classList.add("cell");
+      boxColor = getBoxColor(cell);
+      cellDiv.style.backgroundColor = boxColor;
 
       if(cell === 0) {
         cellDiv.innerText = "";
@@ -304,6 +306,27 @@ function drawGrid(grid) {
     }
     containerDiv.append(rowDiv);
   }
+}
+
+function getBoxColor(cell) {
+  let color;
+  let num;
+
+  if(cell === 0) {
+    color = "rgb(174, 230, 196)";
+    return color;
+  } else {
+    num = cell.value;
+  }
+
+  if(num <= 16) {
+    color = "rgb(133, 230, 170)";
+  } else if(num <= 256) {
+    color = "rgb(230, 221, 137)";
+  } else {
+    color = "rgb(219, 118, 118)";
+  }
+  return color;
 }
 
 startGame();
