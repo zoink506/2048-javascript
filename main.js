@@ -77,10 +77,15 @@ function moveGrid(grid, direction) {
       console.log("arrow right");
       moveRight(grid);
       break;
-
-    default:
-      break;
   }
+
+  setCombinedToFalse(grid);
+  createNewCells(grid, 1);
+  drawGrid(grid);
+}
+
+function createNewCells(grid) {
+  
 }
 
 // Begin by moving only one cell in each direction
@@ -126,24 +131,13 @@ function moveUp(grid) {
                 cellAbove.hasCombined = true;
                 grid[i][j] = 0;
                 movesAvailable = true;
-
               }
-
             }
-
           }
-
         }
       }
     }
-
   } while(movesAvailable)
-
-  // Set all .hasCombined to false so that next keypress is allowed to combine cells!
-  setCombinedToFalse(grid);
-  drawGrid(grid);
-
-  console.log(grid);
 }
 
 function moveDown(grid) {
@@ -183,10 +177,6 @@ function moveDown(grid) {
       }
     }
   } while (movesAvailable)
-
-  setCombinedToFalse(grid);
-  drawGrid(grid);
-
 }
 
 function moveLeft(grid) {
@@ -220,14 +210,11 @@ function moveLeft(grid) {
                 movesAvailable = true;
               }
             }
-
           }
         }
       }
     }
   } while (movesAvailable)
-
-  drawGrid(grid);
 }
 
 function moveRight(grid) {
@@ -267,8 +254,6 @@ function moveRight(grid) {
       }
     }
   } while(movesAvailable)
-
-  drawGrid(grid);
 }
 
 function setCombinedToFalse(grid) {
