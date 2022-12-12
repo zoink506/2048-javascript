@@ -93,16 +93,21 @@ function createNewCells(grid) {
   if(grid[row][column] === 0) {
     grid[row][column] = { value: 2, hasCombined: false };
   } else {
-    console.log("Iteration");
-    createNewCells(grid);
+    // Check if there is somewhere to place new cells before doing recursion
+    if(isEmptyCell(grid)) {
+      createNewCells(grid);
+    }
   }
+}
 
-  console.log(randNum);
-  console.log(row, column);
-
-  
-
-
+function isEmptyCell(grid) {
+  for(let i = 0; i < grid.length; i++) {
+    row = grid[i];
+    for(let j = 0; j < row.length; j++) {
+      cell = row[j];
+      if(cell === 0) return true;
+    }
+  }
 }
 
 // Begin by moving only one cell in each direction
