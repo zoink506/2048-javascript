@@ -149,16 +149,126 @@ function moveUp(grid) {
 function moveDown(grid) {
   // Loop from bottom to top, left to right
 
+  let movesAvailable;
+  do {
+    movesAvailable = false;
+    for(let i = grid.length - 1; i >= 0; i--) {
+      const row = grid[i];
+
+      for(let j = 0; j < row.length; j++) {
+        let cell = row[j];
+
+        if(cell !== 0) {
+          if(i !== grid.length - 1) {
+            let cellBelow = grid[i+1][j];
+            console.log(`${i}-${j}`, cellBelow);
+
+            if(cellBelow === 0) {
+              // Move to take it's place
+              grid[i+1][j] = cell;
+              grid[i][j] = 0;
+              movesAvailable = true;
+
+            } else {
+              // Check if it can be combined
+              if( cellBelow.value === cell.value && !cellBelow.hasCombined && !cell.hasCombined ) {
+                cellBelow.value *= 2;
+                cellBelow.hasCombined = true;
+                grid[i][j] = 0;
+                movesAvailable = true;
+              }
+            }
+          }
+        }
+      }
+    }
+  } while (movesAvailable)
+
+  setCombinedToFalse(grid);
+  drawGrid(grid);
+
 }
 
 function moveLeft(grid) {
   // Loop from left to right, top to bottom
 
+  let movesAvailable;
+  do {
+    movesAvailable = false;
+    for(let i = 0; i < grid.length; i++) {
+      const row = grid[i];
+
+      for(let j = 0; j < row.length; j++) {
+        let cell = row[j];
+
+        if(cell !== 0) {
+          if(j !== 0) {
+            let cellLeft = row[j-1];
+            console.log(cellLeft);
+
+            if(cellLeft === 0) {
+              // Move to take it's place
+              row[j-1] = cell;
+              row[j] = 0;
+              movesAvailable = true;
+            } else {
+              // Check if it can be combined
+              if( cellLeft.value === cell.value && !cellLeft.hasCombined && !cell.hasCombined ) {
+                cellLeft.value *= 2;
+                cellLeft.hasCombined = true;
+                row[j] = 0;
+                movesAvailable = true;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  } while (movesAvailable)
+
+  drawGrid(grid);
 }
 
 function moveRight(grid) {
   // Loop from right to left, top to bottom
+  let movesAvailable;
 
+  do {
+    movesAvailable = false;
+    for(let i = 0; i < grid.length; i++) {
+      row = grid[i];
+
+      for(let j = row.length - 1; j >= 0; j--) {
+        let cell = row[j];
+
+        if(cell !== 0) {
+          if(j !== row.length - 1) {
+            let cellRight = row[j+1];
+            console.log(cellRight);
+
+            if(cellRight === 0) {
+              // Move to take it's place
+              row[j+1] = cell;
+              row[j] = 0;
+              movesAvailable = true;
+            } else {
+              // Check if it can be combined
+
+              if( cellRight.value === cell.value && !cellRight.hasCombined && !cell.hasCombined ) {
+                cellRight.value *= 2;
+                cellRight.hasCombined = true;
+                row[j] = 0;
+                movesAvailable = true;
+              }
+            }
+          }
+        }
+      }
+    }
+  } while(movesAvailable)
+
+  drawGrid(grid);
 }
 
 function setCombinedToFalse(grid) {
